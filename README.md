@@ -1,249 +1,328 @@
-# Network Monitor Pro v2.1 - FIXED
+<div align="center">
 
-![Network Monitor Pro](https://img.shields.io/badge/Network-Monitor%20Pro-blue)
-![Python](https://img.shields.io/badge/Python-3.8%2B-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-![Version](https://img.shields.io/badge/Version-2.1--Fixed-brightgreen)
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
+# 🌐 Network Monitor Pro
 
-**Advanced Network Monitoring Tool with Real-Time Visualization and Comprehensive Analysis**
+**Advanced real-time network monitoring with traffic visualization, anomaly detection, and comprehensive performance analysis.**
 
-## 📋 Table of Contents
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey?style=for-the-badge)](https://github.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-2.1-brightgreen?style=for-the-badge)](CHANGELOG.md)
 
-- [Overview](#overview)
-- [Features](#-features)
-- [Installation](#-installation)
-- [Quick Start](#-quick-start)
-- [User Interface Guide](#-user-interface-guide)
-- [File Structure](#-file-structure)
-- [Detailed Code Explanation](#-detailed-code-explanation)
-- [Dependencies](#-dependencies)
-- [Troubleshooting](#-troubleshooting)
-- [Known Issues & Fixes](#-known-issues--fixes)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Support](#-support)
+[Features](#-features) · [Installation](#-installation) · [Quick Start](#-quick-start) · [Screenshots](#-interface-overview) · [Troubleshooting](#-troubleshooting)
+
+</div>
+
+---
 
 ## 📖 Overview
 
-Network Monitor Pro is a comprehensive, feature-rich network monitoring application built with Python and Tkinter. It provides real-time network analysis, traffic visualization, performance monitoring, and security anomaly detection in an intuitive graphical interface.
+Network Monitor Pro is a feature-rich network monitoring application built with Python and Tkinter. It provides a live, graphical view of your network — tracking speeds, connections, protocol distributions, latency, and potential security threats — all in one intuitive interface.
 
-### Key Capabilities:
-- **Real-time Network Monitoring**: Track download/upload speeds, latency, packet loss
-- **Traffic Analysis**: Visualize protocol distributions, top hosts, and port activity
-- **Connection Management**: View and manage active network connections
-- **Anomaly Detection**: Identify suspicious network activities and security threats
-- **Performance Assessment**: Generate network health scores with recommendations
-- **Data Export**: Export reports in multiple formats (CSV, JSON, PDF, PNG)
+Whether you're a developer debugging traffic, a sysadmin monitoring infrastructure, or a power user who wants visibility into their home network, Network Monitor Pro has you covered.
+
+---
 
 ## ✨ Features
 
-### 🎯 Core Features
+### 📊 Real-Time Dashboard
+- Live download/upload speed meters
+- Latency, jitter, and packet loss indicators
+- Active connection counter
+- Network health score (0–100) with actionable recommendations
+- Interface selector for multi-NIC systems
 
-1. **Dashboard**
-   - Real-time speed metrics (download/upload)
-   - Network quality indicators (latency, jitter, packet loss)
-   - Active connections count
-   - Network health score with progress bar
-   - Interface selection and monitoring controls
+### 📡 Live Packet Capture
+- Filter by protocol: TCP, UDP, HTTP/HTTPS, DNS, ICMP
+- Timestamped packet tree with source, destination, size, and protocol
+- Real-time protocol statistics
+- Export captured packets to CSV
 
-2. **Monitoring Tab**
-   - Live packet capture with filtering options
-   - Real-time packet tree view
-   - Protocol statistics (TCP, UDP, HTTP/HTTPS, DNS, ICMP)
-   - Export captured packets to CSV
+### 🔗 Connection Manager
+- View all active connections with process name and PID
+- Search/filter by process
+- Inspect connection details
+- Terminate connections (simulated)
+- Export connection list to CSV
 
-3. **Connections Tab**
-   - Active network connections list
-   - Process and PID information
-   - Connection termination (simulated)
-   - Connection details viewer
-   - Export connections list
+### 📈 Analysis Suite
 
-4. **Analysis Tab**
-   - **Protocol Analysis**: Pie charts showing traffic distribution
-   - **Traffic Analysis**: Speed timeline, top hosts, port activity, traffic composition
-   - **Performance Analysis**: Latency distribution, jitter analysis, packet loss graphs
-   - **Anomaly Detection**: Security threat identification and reporting
+| Sub-Tab | What You Get |
+|---|---|
+| **Protocol Analysis** | Pie chart of traffic by protocol |
+| **Traffic Analysis** | Speed timeline, top hosts, port activity, composition over time |
+| **Performance Analysis** | Latency histogram, jitter graph, packet loss trends |
+| **Anomaly Detection** | Threat identification with severity levels and recommendations |
 
-5. **Tools & Utilities**
-   - Speed test functionality
-   - Network health assessment
-   - Traffic analysis reports
-   - DNS cache flushing
-   - Ping testing
-   - Dark mode (coming soon)
+### 🛠️ Built-in Tools
+- Speed test
+- Network health assessment report
+- DNS cache flush
+- Ping tester
+- Multi-format export: CSV, JSON, PDF, PNG
 
-### 🔧 Technical Features
+### ⚙️ Technical Highlights
+- Multi-platform: Windows, Linux, macOS
+- Thread-safe background monitoring with non-blocking GUI updates
+- Real system data via `psutil`
+- Demo mode when live data is unavailable
+- Smart caching to minimize redundant calls
 
-- **Multi-platform Support**: Windows, Linux, macOS
-- **Thread-safe Design**: Background monitoring with GUI updates
-- **Real Data Collection**: Uses psutil for system-level network information
-- **Smart Caching**: Redundant data fetching minimized
-- **Demo Mode**: Functional demo data when no real data available
-- **Export Capabilities**: Multiple formats supported
+---
 
 ## 🚀 Installation
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip (Python package manager)
-- Administrative privileges (for some features)
+| Requirement | Details |
+|---|---|
+| Python | 3.8 or higher |
+| pip | Latest recommended |
+| Privileges | Admin/root for some features (packet capture) |
 
-### Step-by-Step Installation
+### 1 · Clone the Repository
 
-1. **Clone or Download the Project**
-   ```bash
-   git clone https://github.com/yourusername/network-monitor-pro.git
-   cd network-monitor-pro
+```bash
+git clone https://github.com/yourusername/network-monitor-pro.git
+cd network-monitor-pro
+```
 
-   Install Dependencies
+### 2 · Install Dependencies
 
-bash
+```bash
 pip install -r requirements.txt
+```
+
 Or install individually:
 
-bash
+```bash
 pip install matplotlib psutil numpy pillow ttkthemes
-Windows Additional Setup
+```
 
-bash
-# For WiFi information on Windows
+### 3 · Windows-Only (Optional)
+
+For enhanced Wi-Fi information on Windows:
+
+```bash
 pip install pywin32
+```
 
+---
 
-🎮 Quick Start
-Launch the Application
+## ⚡ Quick Start
 
-bash
+```bash
 python gui_interface.py
-Initial Setup
+```
 
-Select your network interface from the dropdown
+Then:
 
-Click "Start Monitoring"
+1. **Select your network interface** from the dropdown (e.g., `Wi-Fi`, `eth0`)
+2. **Click "Start Monitoring"** to begin data collection
+3. **Navigate the tabs** to explore traffic, connections, and analysis
 
-View real-time statistics in the Dashboard
+---
 
-Basic Operation
+## 🖥️ Interface Overview
 
-text
-Dashboard → Real-time metrics
-Monitoring → Live packet capture
-Connections → Active connections
-Analysis → Graphs and insights
-
-
-## Main Window Layout
-
+```
 ┌─────────────────────────────────────────────────────────────────┐
 │  File  Tools  View  Help                                        │
 ├─────────────────────────────────────────────────────────────────┤
-│  [📊 Dashboard] [📡 Monitoring] [🔗 Connections] [📈 Analysis]  │
+│  [📊 Dashboard]  [📡 Monitoring]  [🔗 Connections]  [📈 Analysis]│
+│                                                                 │
+│  Interface: [Wi-Fi ▼]  ▶ Start  ⟳ Refresh  ⚡ Speed Test       │
+│  ─────────────────────────────────────────────────────────────  │
+│                                                                 │
+│  ┌───────────────────┐  ┌──────────────────────────────────┐   │
+│  │   Network Info    │  │         Speed Metrics            │   │
+│  │  IP: 192.168.1.5  │  │  ↓ Download:   85.2 Mbps         │   │
+│  │  GW: 192.168.1.1  │  │  ↑ Upload:     22.1 Mbps         │   │
+│  │  DNS: 8.8.8.8     │  │  Packets/s:   145                │   │
+│  └───────────────────┘  └──────────────────────────────────┘   │
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐   │
-│  │ Interface: [Wi-Fi ▼] ▶ Start Monitoring ⟳ ⚡ 🔄         │   │
+│  │  Latency: 24 ms · Jitter: 2.1 ms · Loss: 0.2% · 42 conn│   │
 │  └─────────────────────────────────────────────────────────┘   │
 │                                                                 │
-│  ┌───────────────┐ ┌──────────────────────────────────────┐   │
-│  │ Network Info  │ │         Speed Metrics                │   │
-│  │ • Connection  │ │ • Download: 85.2 Mbps                │   │
-│  │ • IP Address  │ │ • Upload: 22.1 Mbps                  │   │
-│  │ • Gateway     │ │ • Packets/sec: 145                   │   │
-│  │ • DNS Servers │ │ • Bytes/sec: 125 KB/s                │   │
-│  └───────────────┘ └──────────────────────────────────────┘   │
+│  Health Score: 87/100  [████████████████████░░░░░]  Good       │
 │                                                                 │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │                    Network Quality                      │   │
-│  │ • Latency: 24 ms • Jitter: 2.1 ms                       │   │
-│  │ • Packet Loss: 0.2% • Connections: 42                   │   │
-│  └─────────────────────────────────────────────────────────┘   │
-│                                                                 │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │                    Network Health                       │   │
-│  │  Score: 87/100 [███████████████████░░░░░░]              │   │
-│  └─────────────────────────────────────────────────────────┘   │
-│                                                                 │
-│  [📊 View Graphs] [🔍 Deep Analysis] [⚙️ Settings] [📋 Export] │
+│  [📊 View Graphs]  [🔍 Deep Analysis]  [⚙️ Settings]  [📋 Export]│
 └─────────────────────────────────────────────────────────────────┘
+```
 
+### Tab Descriptions
 
-## Tab Descriptions
-1. Dashboard Tab
-The main control center showing real-time network metrics:
+<details>
+<summary><strong>📊 Dashboard</strong></summary>
 
-Network information (IP addresses, gateway, DNS)
+The main control center. Shows real-time:
+- Network interface information (IP, gateway, DNS)
+- Download/upload speeds and packet rates
+- Quality metrics: latency, jitter, packet loss, active connections
+- Network health score with improvement recommendations
+- Quick-action buttons for common tasks
 
-Speed metrics (download/upload speeds)
+</details>
 
-Quality metrics (latency, jitter, packet loss)
+<details>
+<summary><strong>📡 Monitoring</strong></summary>
 
-Health assessment with recommendations
+Live packet capture with:
+- Protocol filter buttons (All / TCP / UDP / HTTP(S) / DNS / ICMP)
+- Packet table: timestamp, source IP, destination IP, protocol, size
+- Running totals: total packets, bytes transferred, per-protocol counts
+- Start/Stop/Clear/Export controls
 
-Quick action buttons
+</details>
 
-2. Monitoring Tab
-Live packet capture interface:
+<details>
+<summary><strong>🔗 Connections</strong></summary>
 
-Filter controls (All Traffic, TCP, UDP, HTTP/HTTPS, DNS, ICMP)
+Full view of active network connections:
+- Protocol, local/remote address and port, connection state
+- Process name and PID for each connection
+- Search by process name
+- Export to CSV
 
-Packet tree view with timestamp, source, destination, protocol, size
+</details>
 
-Real-time statistics (total packets, bytes, protocol counts)
+<details>
+<summary><strong>📈 Analysis</strong></summary>
 
-Capture controls (start/stop, clear, export)
+Four sub-tabs for deep insight:
 
-3. Connections Tab
-Active network connection management:
+- **Protocol Analysis** — pie chart of traffic by protocol with export
+- **Traffic Analysis** — speed timeline, top hosts, port heatmap, composition chart
+- **Performance Analysis** — latency histogram, jitter timeline, packet loss graph, trend lines
+- **Anomaly Detection** — flagged events with High/Medium/Low severity, descriptions, and recommended actions
 
-Connection list with protocol, addresses, ports, status
+</details>
 
-Process name and PID information
+---
 
-Connection termination (simulated)
+## 📦 Dependencies
 
-Search functionality by process name
+| Package | Purpose |
+|---|---|
+| `psutil` | System-level network stats and connections |
+| `matplotlib` | Graphs and charts in the Analysis tab |
+| `numpy` | Numerical processing for performance metrics |
+| `pillow` | Image export support |
+| `ttkthemes` | Enhanced Tkinter themes |
+| `pywin32` *(Windows only)* | Wi-Fi adapter details on Windows |
 
-Export connections to CSV
+Install all at once:
 
-4. Analysis Tab
-Comprehensive network analysis with four sub-tabs:
+```bash
+pip install -r requirements.txt
+```
 
-4.1 Protocol Analysis
+---
 
-Pie chart showing traffic distribution by protocol
+## 🗂️ File Structure
 
-Update and export functionality
+```
+network-monitor-pro/
+├── gui_interface.py        # Main application entry point
+├── network_monitor.py      # Core monitoring logic and data collection
+├── analysis.py             # Traffic analysis and anomaly detection
+├── requirements.txt        # Python dependencies
+├── README.md
+└── exports/                # Default directory for exported reports
+```
 
-Color-coded segments for easy identification
+---
 
-4.2 Traffic Analysis
+## 🔧 Troubleshooting
 
-Speed Timeline: Download/upload speeds over time
+### Permission Denied / No Packets Captured
 
-Top Hosts: Most active IP addresses
+Packet capture requires elevated privileges on most systems.
 
-Port Activity: Most used network ports
+```bash
+# Linux / macOS
+sudo python gui_interface.py
 
-Traffic Composition: Data volume by protocol over time
+# Windows — run your terminal as Administrator
+```
 
-4.3 Performance Analysis
+### No Interfaces Showing in Dropdown
 
-Latency Distribution: Histogram of latency values
+Make sure `psutil` is installed correctly:
 
-Jitter Analysis: Latency variation over time
+```bash
+pip install --upgrade psutil
+```
 
-Packet Loss: Percentage loss over time
+Then restart the application.
 
-Statistical overlays and trend lines
+### Graphs Not Rendering
 
-4.4 Anomaly Detection
+`matplotlib` may be missing a backend. Install Tkinter's matplotlib backend:
 
-List of detected security anomalies
+```bash
+pip install matplotlib --upgrade
+```
 
-Severity classification (High/Medium/Low)
+On some Linux systems, you may also need:
 
-Detailed descriptions and recommendations
+```bash
+sudo apt-get install python3-tk
+```
 
-Export anomaly reports
+### "Module Not Found" Error
+
+Re-run the dependency install:
+
+```bash
+pip install -r requirements.txt
+```
+
+If the issue persists, check that you're using the correct Python environment (especially if using `conda` or `venv`).
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how to get started:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes with clear messages: `git commit -m "Add: description of change"`
+4. Push to your fork: `git push origin feature/your-feature-name`
+5. Open a Pull Request against `main`
+
+Please follow PEP 8 style guidelines and include a brief description of what your PR does and why.
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Dark mode support
+- [ ] Historical data logging and playback
+- [ ] Alert notifications (email / desktop)
+- [ ] Plugin system for custom protocol parsers
+- [ ] Web-based dashboard option
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for full details.
+
+---
+
+## 💬 Support
+
+- 🐛 **Bug reports**: [Open an issue](https://github.com/yourusername/network-monitor-pro/issues)
+- 💡 **Feature requests**: [Start a discussion](https://github.com/yourusername/network-monitor-pro/discussions)
+- 📧 **Email**: your@email.com
+
+---
+
+<div align="center">
+
+Made with ❤️ using Python · Tkinter · psutil · matplotlib
+
+</div>
