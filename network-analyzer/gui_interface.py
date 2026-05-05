@@ -516,37 +516,37 @@ class NetworkMonitorGUI:
         ttk.Button(control_frame, text="Export All", 
                   command=lambda: self.export_figure('performance')).pack(side='left', padx=5)
         
-        # Create figure with subplots
+        
         fig = Figure(figsize=(12, 8), dpi=80)
         
-        # Create 2x2 grid of plots
-        self.perf_ax1 = fig.add_subplot(221)  # Speed timeline
-        self.perf_ax2 = fig.add_subplot(222)  # Latency distribution
-        self.perf_ax3 = fig.add_subplot(223)  # Jitter analysis
-        self.perf_ax4 = fig.add_subplot(224)  # Packet loss
+        
+        self.perf_ax1 = fig.add_subplot(221)  
+        self.perf_ax2 = fig.add_subplot(222)  
+        self.perf_ax3 = fig.add_subplot(223)  
+        self.perf_ax4 = fig.add_subplot(224)  
         
         fig.tight_layout(pad=3.0)
         
         self.perf_canvas = FigureCanvasTkAgg(fig, parent)
         self.perf_canvas.get_tk_widget().pack(fill='both', expand=True, padx=10, pady=5)
         
-        # Add toolbar
+        
         toolbar_frame = ttk.Frame(parent)
         toolbar_frame.pack(fill='x', padx=10, pady=(0, 10))
         toolbar = NavigationToolbar2Tk(self.perf_canvas, toolbar_frame)
         toolbar.update()
         
-        # Store references
+
         self.figures['performance'] = fig
         self.canvases['performance'] = self.perf_canvas
         self.axes['performance'] = [self.perf_ax1, self.perf_ax2, self.perf_ax3, self.perf_ax4]
         
-        # Update immediately
+        
         self.update_performance_graphs()
         
     def create_anomaly_analysis(self, parent):
         """Create anomaly detection section"""
-        # Control panel
+        
         control_frame = ttk.Frame(parent)
         control_frame.pack(fill='x', padx=10, pady=10)
         
@@ -559,7 +559,7 @@ class NetworkMonitorGUI:
         ttk.Button(control_frame, text="Export Report", 
                   command=self.export_anomaly_report).pack(side='left', padx=5)
         
-        # Anomaly list
+        
         list_frame = ttk.LabelFrame(parent, text="Detected Anomalies", padding=10)
         list_frame.pack(fill='both', expand=True, padx=10, pady=(0, 10))
         
@@ -576,21 +576,21 @@ class NetworkMonitorGUI:
         self.anomaly_tree.column('Time', width=100)
         self.anomaly_tree.column('Count', width=60)
         
-        # Add scrollbar
+        
         vsb = ttk.Scrollbar(list_frame, orient="vertical", command=self.anomaly_tree.yview)
         self.anomaly_tree.configure(yscrollcommand=vsb.set)
         
         self.anomaly_tree.pack(side='left', fill='both', expand=True)
         vsb.pack(side='right', fill='y')
         
-        # Anomaly details
+        
         detail_frame = ttk.LabelFrame(parent, text="Anomaly Details", padding=10)
         detail_frame.pack(fill='x', padx=10, pady=(0, 10))
         
         self.anomaly_detail_text = scrolledtext.ScrolledText(detail_frame, height=8, wrap=tk.WORD)
         self.anomaly_detail_text.pack(fill='both', expand=True)
         
-        # Bind selection event
+        
         self.anomaly_tree.bind('<<TreeviewSelect>>', self.show_anomaly_details)
         
     def create_status_bar(self):
