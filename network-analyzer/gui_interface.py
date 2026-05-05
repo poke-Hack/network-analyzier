@@ -1,9 +1,3 @@
-"""
-Network Monitor Pro - GUI Interface
-Updated with all working features and proper graph displays
-FIXED VERSION: Graph updates now work correctly without artist sharing issues
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext, filedialog
 import threading
@@ -24,14 +18,12 @@ import webbrowser
 import subprocess
 from collections import Counter, defaultdict, deque
 
-# Optional theme support
 try:
-    from ttkthemes import ThemedTk  # type: ignore
+    from ttkthemes import ThemedTk  
     TTKTHEMES_AVAILABLE = True
 except ImportError:
     TTKTHEMES_AVAILABLE = False
 
-# Import local modules
 from network_monitor import NetworkMonitor, NetworkAnalyzer
 from visualizer import NetworkVisualizer
 
@@ -41,53 +33,43 @@ class NetworkMonitorGUI:
         self.root.title("Network Monitor Pro v2.1 - FIXED")
         self.root.geometry("1400x900")
         
-        # Set window icon
         try:
             self.root.iconbitmap('network_icon.ico')
         except:
             try:
-                # Try to create a simple icon
                 self.root.iconbitmap(default='')
             except:
                 pass
         
-        # Initialize network components
         self.monitor = NetworkMonitor()
         self.analyzer = NetworkAnalyzer()
         self.visualizer = NetworkVisualizer()
         
-        # Data queues for thread-safe communication
         self.data_queue = queue.Queue()
         self.update_queue = queue.Queue()
         
-        # GUI state
         self.is_monitoring = False
         self.current_interface = None
         self.last_wifi_ssid = None
         self.capture_active = False
         
-        # Store references to figures for updating
         self.figures = {}
         self.canvases = {}
         self.axes = {}
         
-        # Setup GUI
         self.setup_styles()
         self.create_menu()
         self.create_widgets()
         
-        # Initialize with data
         self.refresh_interfaces()
         self.check_wifi_status()
         
-        # Start periodic updates
         self.periodic_update()
         
     def setup_styles(self):
         """Setup ttk styles for modern look"""
         style = ttk.Style()
         
-        # Configure colors
         style.theme_use('clam')
         
         style.configure('Title.TLabel', font=('Arial', 16, 'bold'))
@@ -112,7 +94,6 @@ class NetworkMonitorGUI:
         menubar = tk.Menu(self.root)
         self.root.config(menu=menubar)
         
-        # File menu
         file_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="Export Data", command=self.export_data)
@@ -120,7 +101,6 @@ class NetworkMonitorGUI:
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=self.on_closing)
         
-        # Tools menu
         tools_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Tools", menu=tools_menu)
         tools_menu.add_command(label="Speed Test", command=self.perform_speed_test)
@@ -130,7 +110,6 @@ class NetworkMonitorGUI:
         tools_menu.add_separator()
         tools_menu.add_command(label="Ping Test", command=self.ping_test)
         
-        # View menu
         view_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="View", menu=view_menu)
         view_menu.add_command(label="Refresh All", command=self.refresh_display)
@@ -138,7 +117,6 @@ class NetworkMonitorGUI:
         view_menu.add_separator()
         view_menu.add_command(label="Dark Mode", command=self.toggle_dark_mode)
         
-        # Help menu
         help_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Help", menu=help_menu)
         help_menu.add_command(label="User Guide", command=self.show_user_guide)
@@ -147,21 +125,18 @@ class NetworkMonitorGUI:
         
     def create_widgets(self):
         """Create all GUI widgets"""
-        # Create main container with notebook (tabs)
         self.notebook = ttk.Notebook(self.root)
         self.notebook.pack(fill='both', expand=True, padx=10, pady=10)
         
-        # Dashboard Tab
         self.dashboard_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.dashboard_frame, text='📊 Dashboard')
         self.create_dashboard()
         
-        # Monitoring Tab
         self.monitoring_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.monitoring_frame, text='📡 Monitoring')
         self.create_monitoring_tab()
         
-        # Connections Tab
+        
         self.connections_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.connections_frame, text='🔗 Connections')
         self.create_connections_tab()
