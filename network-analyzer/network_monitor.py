@@ -1,7 +1,3 @@
-"""
-Network Monitor Pro - Core Monitoring Engine
-Updated with real data collection and proper packet simulation
-"""
 
 import time
 import threading
