@@ -644,7 +644,7 @@ class NetworkMonitorGUI:
             self.status_label.config(text=f"Monitoring {interface}...", foreground='#4285f4')
             self.monitoring_status.config(text=f"Monitoring: {interface}", foreground='#34a853')
             
-            # Start monitoring thread for GUI updates
+            
             monitor_thread = threading.Thread(target=self.monitor_loop, daemon=True)
             monitor_thread.start()
             
@@ -667,29 +667,29 @@ class NetworkMonitorGUI:
         """Background monitoring loop for GUI updates"""
         while self.is_monitoring:
             try:
-                # Get updated data
+                
                 stats = self.monitor.get_statistics()
                 network_info = self.monitor.get_network_info()
                 recent_data = self.monitor.get_recent_data(count=100)
                 
-                # Calculate bytes per second in KB/s
+                
                 if 'bytes_per_second' in stats:
                     stats['bytes_per_second'] = stats['bytes_per_second'] / 1024
                 
-                # Put data in queue for GUI update
+        
                 self.update_queue.put({
                     'stats': stats,
                     'network_info': network_info,
                     'recent_data': recent_data
                 })
                 
-                # Check for WiFi changes
+                
                 current_wifi = network_info.get('ssid', 'N/A')
                 if current_wifi != self.last_wifi_ssid:
                     self.last_wifi_ssid = current_wifi
                     self.root.after(0, self.update_wifi_status, current_wifi)
                 
-                time.sleep(1)  # Update every second
+                time.sleep(1)  
                 
             except Exception as e:
                 print(f"Monitor error: {e}")
@@ -698,23 +698,23 @@ class NetworkMonitorGUI:
     def periodic_update(self):
         """Periodic GUI updates"""
         try:
-            # Process any pending updates from monitor thread
+            
             while not self.update_queue.empty():
                 data = self.update_queue.get_nowait()
                 self.update_gui_data(data)
             
-            # Update network info if not monitoring
+            
             if not self.is_monitoring:
                 network_info = self.monitor.get_network_info()
                 self.update_network_info(network_info)
                 
-                # Check WiFi status
+                
                 current_wifi = network_info.get('ssid', 'N/A')
                 if current_wifi != self.last_wifi_ssid:
                     self.last_wifi_ssid = current_wifi
                     self.update_wifi_status(current_wifi)
             
-            # Update timestamp
+            
             current_time = time.strftime("%H:%M:%S")
             self.update_time_label.config(text=f"Last update: {current_time}")
             
