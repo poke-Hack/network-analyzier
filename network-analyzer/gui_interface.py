@@ -388,7 +388,7 @@ class NetworkMonitorGUI:
         self.conn_tree.column('Process', width=120)
         self.conn_tree.column('PID', width=60)
         
-        # Add scrollbars
+        
         vsb = ttk.Scrollbar(conn_frame, orient="vertical", command=self.conn_tree.yview)
         hsb = ttk.Scrollbar(conn_frame, orient="horizontal", command=self.conn_tree.xview)
         self.conn_tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
@@ -400,45 +400,42 @@ class NetworkMonitorGUI:
         conn_frame.grid_rowconfigure(0, weight=1)
         conn_frame.grid_columnconfigure(0, weight=1)
         
-        # Connection details
         detail_frame = ttk.LabelFrame(self.connections_frame, text="Connection Details", padding=10)
         detail_frame.pack(fill='x', padx=10, pady=(0, 10))
         
         self.conn_detail_text = scrolledtext.ScrolledText(detail_frame, height=8, wrap=tk.WORD)
         self.conn_detail_text.pack(fill='both', expand=True)
         
-        # Bind selection event
+    
         self.conn_tree.bind('<<TreeviewSelect>>', self.show_connection_details)
         
     def create_analysis_tab(self):
         """Create analysis tab with graphs and insights"""
-        # Create notebook within analysis tab
+    
         analysis_notebook = ttk.Notebook(self.analysis_frame)
         analysis_notebook.pack(fill='both', expand=True, padx=10, pady=10)
         
-        # Protocol Analysis
+
         protocol_frame = ttk.Frame(analysis_notebook)
         analysis_notebook.add(protocol_frame, text='Protocols')
         self.create_protocol_analysis(protocol_frame)
         
-        # Traffic Analysis
         traffic_frame = ttk.Frame(analysis_notebook)
         analysis_notebook.add(traffic_frame, text='Traffic')
         self.create_traffic_analysis(traffic_frame)
         
-        # Performance Analysis
         perf_frame = ttk.Frame(analysis_notebook)
         analysis_notebook.add(perf_frame, text='Performance')
         self.create_performance_analysis(perf_frame)
         
-        # Anomaly Detection
+
         anomaly_frame = ttk.Frame(analysis_notebook)
         analysis_notebook.add(anomaly_frame, text='Anomalies')
         self.create_anomaly_analysis(anomaly_frame)
         
     def create_protocol_analysis(self, parent):
         """Create protocol analysis section"""
-        # Control panel
+    
         control_frame = ttk.Frame(parent)
         control_frame.pack(fill='x', padx=10, pady=5)
         
@@ -448,29 +445,29 @@ class NetworkMonitorGUI:
         ttk.Button(control_frame, text="Export Graph", 
                   command=lambda: self.export_figure('protocol')).pack(side='left', padx=5)
         
-        # Protocol distribution pie chart
+        
         fig = Figure(figsize=(10, 6), dpi=80)
         self.protocol_ax = fig.add_subplot(111)
         self.protocol_canvas = FigureCanvasTkAgg(fig, parent)
         self.protocol_canvas.get_tk_widget().pack(fill='both', expand=True, padx=10, pady=5)
         
-        # Add toolbar
+        
         toolbar_frame = ttk.Frame(parent)
         toolbar_frame.pack(fill='x', padx=10, pady=(0, 10))
         toolbar = NavigationToolbar2Tk(self.protocol_canvas, toolbar_frame)
         toolbar.update()
         
-        # Store references
+        
         self.figures['protocol'] = fig
         self.canvases['protocol'] = self.protocol_canvas
         self.axes['protocol'] = self.protocol_ax
         
-        # Update immediately
+    
         self.update_protocol_graph()
         
     def create_traffic_analysis(self, parent):
         """Create traffic analysis section"""
-        # Control panel
+        
         control_frame = ttk.Frame(parent)
         control_frame.pack(fill='x', padx=10, pady=5)
         
@@ -480,32 +477,31 @@ class NetworkMonitorGUI:
         ttk.Button(control_frame, text="Export All", 
                   command=lambda: self.export_figure('traffic')).pack(side='left', padx=5)
         
-        # Create figure with subplots
+        
         fig = Figure(figsize=(12, 8), dpi=80)
         
-        # Create 2x2 grid of plots
-        self.traffic_ax1 = fig.add_subplot(221)  # Speed timeline
-        self.traffic_ax2 = fig.add_subplot(222)  # Top hosts
-        self.traffic_ax3 = fig.add_subplot(223)  # Port activity
-        self.traffic_ax4 = fig.add_subplot(224)  # Traffic composition
+        
+        self.traffic_ax1 = fig.add_subplot(221)  
+        self.traffic_ax2 = fig.add_subplot(222) 
+        self.traffic_ax3 = fig.add_subplot(223)  
+        self.traffic_ax4 = fig.add_subplot(224)  
         
         fig.tight_layout(pad=3.0)
         
         self.traffic_canvas = FigureCanvasTkAgg(fig, parent)
         self.traffic_canvas.get_tk_widget().pack(fill='both', expand=True, padx=10, pady=5)
         
-        # Add toolbar
         toolbar_frame = ttk.Frame(parent)
         toolbar_frame.pack(fill='x', padx=10, pady=(0, 10))
         toolbar = NavigationToolbar2Tk(self.traffic_canvas, toolbar_frame)
         toolbar.update()
         
-        # Store references
+        
         self.figures['traffic'] = fig
         self.canvases['traffic'] = self.traffic_canvas
         self.axes['traffic'] = [self.traffic_ax1, self.traffic_ax2, self.traffic_ax3, self.traffic_ax4]
         
-        # Update immediately
+        
         self.update_traffic_graphs()
         
     def create_performance_analysis(self, parent):
