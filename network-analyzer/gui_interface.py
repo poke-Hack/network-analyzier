@@ -141,28 +141,27 @@ class NetworkMonitorGUI:
         self.notebook.add(self.connections_frame, text='🔗 Connections')
         self.create_connections_tab()
         
-        # Analysis Tab
+        
         self.analysis_frame = ttk.Frame(self.notebook)
         self.notebook.add(self.analysis_frame, text='📈 Analysis')
         self.create_analysis_tab()
         
-        # Status Bar
+        
         self.create_status_bar()
         
     def create_dashboard(self):
         """Create dashboard with key metrics"""
-        # Top control panel
+
         control_frame = ttk.Frame(self.dashboard_frame)
         control_frame.pack(fill='x', padx=10, pady=10)
         
-        # Interface selection
         ttk.Label(control_frame, text="Interface:", style='Normal.TLabel').grid(row=0, column=0, padx=5, pady=5)
         self.interface_var = tk.StringVar()
         self.interface_combo = ttk.Combobox(control_frame, textvariable=self.interface_var, width=25, state='readonly')
         self.interface_combo.grid(row=0, column=1, padx=5, pady=5)
         self.interface_combo.bind('<<ComboboxSelected>>', self.on_interface_change)
         
-        # Control buttons
+
         self.monitor_btn = ttk.Button(control_frame, text="▶ Start Monitoring", 
                                       command=self.toggle_monitoring, style='Accent.TButton')
         self.monitor_btn.grid(row=0, column=2, padx=10, pady=5)
@@ -176,11 +175,9 @@ class NetworkMonitorGUI:
         ttk.Button(control_frame, text="🔄 Reset", 
                   command=self.reset_statistics).grid(row=0, column=5, padx=5, pady=5)
         
-        # Main metrics grid
         metrics_frame = ttk.Frame(self.dashboard_frame)
         metrics_frame.pack(fill='both', expand=True, padx=10, pady=10)
         
-        # Left panel - Network Info
         info_frame = ttk.LabelFrame(metrics_frame, text="Network Information", padding=10)
         info_frame.pack(side='left', fill='both', expand=True, padx=(0, 5), pady=5)
         
@@ -204,11 +201,9 @@ class NetworkMonitorGUI:
                 info_frame, text="N/A", style='Status.TLabel', foreground='#4285f4', width=25, anchor='w')
             self.network_info_labels[key].grid(row=i, column=1, sticky='w', padx=5, pady=3)
         
-        # Right panel - Real-time Metrics
         metrics_right_frame = ttk.Frame(metrics_frame)
         metrics_right_frame.pack(side='left', fill='both', expand=True, padx=(5, 0), pady=5)
         
-        # Speed metrics
         speed_frame = ttk.LabelFrame(metrics_right_frame, text="Speed Metrics", padding=10)
         speed_frame.pack(fill='x', pady=(0, 10))
         
@@ -232,7 +227,6 @@ class NetworkMonitorGUI:
             ttk.Label(speed_grid, text=unit, style='Normal.TLabel').grid(
                 row=i, column=2, sticky='w', padx=2, pady=5)
         
-        # Quality metrics
         quality_frame = ttk.LabelFrame(metrics_right_frame, text="Network Quality", padding=10)
         quality_frame.pack(fill='x', pady=(0, 10))
         
@@ -258,7 +252,7 @@ class NetworkMonitorGUI:
                 ttk.Label(quality_grid, text=unit, style='Normal.TLabel').grid(
                     row=i, column=2, sticky='w', padx=2, pady=5)
         
-        # Health score
+
         health_frame = ttk.LabelFrame(metrics_right_frame, text="Network Health", padding=10)
         health_frame.pack(fill='x')
         
@@ -274,7 +268,6 @@ class NetworkMonitorGUI:
         ttk.Button(health_frame, text="View Details", 
                   command=self.show_network_health, width=15).pack(pady=5)
         
-        # Bottom panel for quick actions
         action_frame = ttk.Frame(self.dashboard_frame)
         action_frame.pack(fill='x', padx=10, pady=10)
         
@@ -292,11 +285,9 @@ class NetworkMonitorGUI:
         
     def create_monitoring_tab(self):
         """Create monitoring tab with packet visualization"""
-        # Top control panel
         monitor_control = ttk.Frame(self.monitoring_frame)
         monitor_control.pack(fill='x', padx=10, pady=10)
         
-        # Filter controls
         ttk.Label(monitor_control, text="Filter:", style='Normal.TLabel').grid(row=0, column=0, padx=5)
         self.filter_var = tk.StringVar(value='All Traffic')
         filter_combo = ttk.Combobox(monitor_control, textvariable=self.filter_var, width=20, state='readonly')
@@ -304,7 +295,6 @@ class NetworkMonitorGUI:
         filter_combo['values'] = ['All Traffic', 'TCP Only', 'UDP Only', 'HTTP/HTTPS', 'DNS', 'ICMP']
         filter_combo.current(0)
         
-        # Capture controls
         self.capture_btn = ttk.Button(monitor_control, text="▶ Start Capture", 
                                       command=self.toggle_capture, style='Accent.TButton')
         self.capture_btn.grid(row=0, column=2, padx=5)
@@ -315,15 +305,12 @@ class NetworkMonitorGUI:
         ttk.Button(monitor_control, text="Export Packets", 
                   command=self.export_packets).grid(row=0, column=4, padx=5)
         
-        # Real-time packet display
         packet_frame = ttk.LabelFrame(self.monitoring_frame, text="Live Packet Capture", padding=10)
         packet_frame.pack(fill='both', expand=True, padx=10, pady=(0, 10))
         
-        # Create Treeview for packets
         columns = ('No.', 'Time', 'Source', 'Destination', 'Protocol', 'Length', 'Info')
         self.packet_tree = ttk.Treeview(packet_frame, columns=columns, show='headings', height=20)
         
-        # Define headings
         for col in columns:
             self.packet_tree.heading(col, text=col)
             self.packet_tree.column(col, width=80, minwidth=50)
@@ -336,7 +323,6 @@ class NetworkMonitorGUI:
         self.packet_tree.column('Length', width=80)
         self.packet_tree.column('Info', width=200)
         
-        # Add scrollbars
         vsb = ttk.Scrollbar(packet_frame, orient="vertical", command=self.packet_tree.yview)
         hsb = ttk.Scrollbar(packet_frame, orient="horizontal", command=self.packet_tree.xview)
         self.packet_tree.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
@@ -345,11 +331,9 @@ class NetworkMonitorGUI:
         vsb.grid(row=0, column=1, sticky='ns')
         hsb.grid(row=1, column=0, sticky='ew')
         
-        # Configure grid
         packet_frame.grid_rowconfigure(0, weight=1)
         packet_frame.grid_columnconfigure(0, weight=1)
         
-        # Statistics frame
         stats_frame = ttk.Frame(self.monitoring_frame)
         stats_frame.pack(fill='x', padx=10, pady=(0, 10))
         
@@ -370,7 +354,7 @@ class NetworkMonitorGUI:
         
     def create_connections_tab(self):
         """Create connections tab with active connections list"""
-        # Control panel
+    
         conn_control = ttk.Frame(self.connections_frame)
         conn_control.pack(fill='x', padx=10, pady=10)
         
@@ -386,7 +370,7 @@ class NetworkMonitorGUI:
         ttk.Button(conn_control, text="🔍 Find Process", 
                   command=self.find_process).grid(row=0, column=3, padx=5)
         
-        # Connections treeview
+    
         conn_frame = ttk.LabelFrame(self.connections_frame, text="Active Connections", padding=10)
         conn_frame.pack(fill='both', expand=True, padx=10, pady=(0, 10))
         
